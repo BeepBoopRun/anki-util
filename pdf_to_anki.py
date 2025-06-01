@@ -5,9 +5,11 @@ import requests
 import sys
 import time
 import shutil
+import hashlib
 
 if(len(sys.argv) < 2):
     print("Specify the necesarry arguments!")
+    sys.exit(1)
 
 ANKI_USER_PATH = "/home/zcrank/.var/app/net.ankiweb.Anki/data/Anki2/User 1/"
 
@@ -17,32 +19,38 @@ my_model = genanki.Model(
   fields=[
     {'name': 'Front'},
     {'name': 'Back'},
-    {'name': 'BookPages'},
+    {'name': 'Image'},
+    {'name': 'OCR'},
   ],
   templates=[
     {
       'name': 'Card 1',
       'qfmt': '{{Front}}',
-      'afmt': '{{FrontSide}}<hr id="answer">{{Back}}<br>{{BookPages}}',
+      'afmt': '{{FrontSide}}<hr id="answer">{{Back}}<br>{{Image}}',
     },
   ])
 
-hash = int(time.time())
-anki_img_path = f"{ANKI_USER_PATH}/collection.media/{hash}.png"
+img_hash = int(time.time())
+anki_img_path = f"{ANKI_USER_PATH}/collection.media/{img_hash}.png"
 shutil.copyfile("img.png", anki_img_path)
 
-
 my_fields = ["non", "omnis"]
-my_fields.append(f'<img src="{hash}.png">')
+my_fields.append(f'<img src="{img_hash}.png">')
+
+with open("out.txt", "r") as f:
+    my_fields.append(f.read())
+
 
 my_note = genanki.Note(
   model=my_model,
   fields=my_fields)
 
+deck_name = str(sys.argv[1])
+deck_hash = int(hashlib.md5(deck_name.encode('utf-8')).hexdigest(), 16) % (2^8-1) + 1
 
 my_deck = genanki.Deck(
-  2059400110,
-  'Advanced Toolkit for Bioinformatics')
+  deck_hash,
+  deck_name)
 
 my_deck.add_note(my_note)
 
