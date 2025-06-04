@@ -1,17 +1,19 @@
 #! /bin/bash
 
+DECKS="$(curl -X POST  --silent http://127.0.0.1:8765 \
+   -H 'Content-Type: application/json' \
+   -d '{"action": "deckNames","version": 6}' | jq -c .result | sed -e 's/\[\|\]/ /g' -e 's/,/!/g' -e 's/"!"/!/g' -e 's/"//g')"
+
+echo ${DECKS}
+
 yad \
---title="Desktop entry editor" \
---text="Simple desktop entry editor" \
+--title="Add to anki" \
 --form \
---field="Type:CB" \
---field="Name" \
---field="Generic name" \
---field="Comment" \
---field="Command:FL" \
---field="Icon" \
---field="In terminal:CHK" \
---field="Startup notify:CHK" "Application" "Name" "Generic name" "This is the comment" "/usr/bin/yad" "yad" FALSE TRUE \
---button="WebUpd8:2" \
---button="gtk-ok:0" \
---button="gtk-cancel:1"
+--image="img.png" \
+--field="Back:CHK" true \
+--field="Deck:CBE" "${DECKS}" \
+--field="Front" \
+--field="Back" \
+--button="Add Image:2" \
+--button="Save:0" \
+--button="Cancel:1"

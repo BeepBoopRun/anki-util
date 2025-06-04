@@ -7,7 +7,7 @@ import time
 import shutil
 import hashlib
 
-if(len(sys.argv) < 2):
+if(len(sys.argv) < 3):
     print("Specify the necesarry arguments!")
     sys.exit(1)
 
@@ -34,7 +34,7 @@ img_hash = int(time.time())
 anki_img_path = f"{ANKI_USER_PATH}/collection.media/{img_hash}.png"
 shutil.copyfile("img.png", anki_img_path)
 
-my_fields = ["non", "omnis"]
+my_fields = [sys.argv[2], sys.argv[3] if len(sys.argv) > 3 else ""]
 my_fields.append(f'<img src="{img_hash}.png">')
 
 with open("out.txt", "r") as f:
@@ -46,7 +46,7 @@ my_note = genanki.Note(
   fields=my_fields)
 
 deck_name = str(sys.argv[1])
-deck_hash = int(hashlib.md5(deck_name.encode('utf-8')).hexdigest(), 16) % (2^8-1) + 1
+deck_hash = int(hashlib.md5(deck_name.encode('utf-8')).hexdigest(), 16) % (2^16) + 1
 
 my_deck = genanki.Deck(
   deck_hash,
