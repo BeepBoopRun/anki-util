@@ -15,6 +15,5 @@ yad \
 --field="Deck:CBE" "${DECKS}" \
 --field="Front" \
 --field="Back" \
---button="Add Image:2" \
 --button="Save:0" \
---button="Cancel:1" 
+--button="Cancel:1" && "$SCRIPT_LOCATION/pdf_to_anki.pdf"

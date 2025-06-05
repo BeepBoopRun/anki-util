@@ -1,7 +1,5 @@
 #! /bin/bash
 
-source ~/.profile
-
 if [[ -z "$(ps -e | grep "anki")" ]]; then
     /var/lib/flatpak/exports/bin/net.ankiweb.Anki 1> /dev/null 2> /dev/null &
 fi
