@@ -7,6 +7,11 @@ import time
 import shutil
 import hashlib
 
+
+for x in sys.argv:
+    print(x)
+
+    
 if(len(sys.argv) < 2):
     print("No input given!")
     sys.exit(1)
@@ -16,7 +21,6 @@ on_back = bool(input[0])
 deck = input[1]
 front = input[2]
 back = input[3]
-
 
 ANKI_USER_PATH = "/home/zcrank/.var/app/net.ankiweb.Anki/data/Anki2/User 1/"
 
@@ -52,7 +56,7 @@ my_note = genanki.Note(
   model=my_model,
   fields=my_fields)
 
-deck_name = str(sys.argv[1])
+deck_name = deck
 deck_hash = int(hashlib.md5(deck_name.encode('utf-8')).hexdigest(), 16) % (2^16) + 1
 
 my_deck = genanki.Deck(
