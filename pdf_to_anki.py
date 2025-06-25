@@ -18,7 +18,7 @@ if(len(sys.argv) < 2):
     print("No input given!")
     sys.exit(1)
 
-ANKI_USER_PATH = "/home/zcrank/.var/app/net.ankiweb.Anki/data/Anki2/User 1/"
+ANKI_USER_PATH = "/home/zcrank/.var/app/net.ankiweb.Anki/data/Anki2/User 1"
 
 img_back_model = genanki.Model(
   1607392319,
@@ -68,7 +68,7 @@ back = input[3]
 my_fields = [front, back]
 my_fields.append(f'<img src="{img_hash}.png">')
 
-with open("out.txt", "r") as f:
+with open(os.path.join(directory_path, "out.txt"), "r") as f:
     my_fields.append(f.read())
 
 
